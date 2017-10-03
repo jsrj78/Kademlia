@@ -10,7 +10,7 @@ namespace Clifton.Kademlia.Protocols
 {
     // ==========================
 
-    public class TcpSubnetProtocol : IProtocol
+    public class TcpProtocol : IProtocol
     {
 #if DEBUG       // for unit tests
         public bool Responds { get; set; }
@@ -28,11 +28,11 @@ namespace Clifton.Kademlia.Protocols
         /// <summary>
         /// For serialization.
         /// </summary>
-        public TcpSubnetProtocol()
+        public TcpProtocol()
         {
         }
 
-        public TcpSubnetProtocol(string url, int port, int subnet)
+        public TcpProtocol(string url, int port, int subnet)
         {
             this.url = url;
             this.port = port;
@@ -50,7 +50,7 @@ namespace Clifton.Kademlia.Protocols
             bool timeoutError;
 
             var ret = RestCall.Post<FindNodeResponse, ErrorResponse>(url + ":" + port + "//FindNode",
-                new FindNodeRequest()
+                new FindNodeSubnetRequest()
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
@@ -86,7 +86,7 @@ namespace Clifton.Kademlia.Protocols
             bool timeoutError;
 
             var ret = RestCall.Post<FindValueResponse, ErrorResponse>(url + ":" + port + "//FindValue",
-                new FindValueRequest()
+                new FindValueSubnetRequest()
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
@@ -116,7 +116,7 @@ namespace Clifton.Kademlia.Protocols
             bool timeoutError;
 
             var ret = RestCall.Post<FindValueResponse, ErrorResponse>(url + ":" + port + "//Ping",
-                new PingRequest()
+                new PingSubnetRequest()
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
@@ -136,7 +136,7 @@ namespace Clifton.Kademlia.Protocols
             bool timeoutError;
 
             var ret = RestCall.Post<FindValueResponse, ErrorResponse>(url + ":" + port + "//Store",
-                    new StoreRequest()
+                    new StoreSubnetRequest()
                     {
                         Protocol = sender.Protocol,
                         ProtocolName = sender.Protocol.GetType().Name,

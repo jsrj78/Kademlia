@@ -17,28 +17,48 @@ namespace Clifton.Kademlia.Protocols
         }
     }
 
-    public abstract class BaseSubnetRequest : BaseRequest
-    {
-        public int Subnet { get; set; }
-    }
-
-    public class FindNodeRequest : BaseSubnetRequest
+    public class FindNodeRequest : BaseRequest
     {
         public BigInteger Key { get; set; }
     }
 
-    public class FindValueRequest : BaseSubnetRequest
+    public class FindValueRequest : BaseRequest
     {
         public BigInteger Key { get; set; }
     }
 
-    public class PingRequest : BaseSubnetRequest { }
+    public class PingRequest : BaseRequest { }
 
-    public class StoreRequest : BaseSubnetRequest
+    public class StoreRequest : BaseRequest
     {
         public BigInteger Key { get; set; }
         public string Value { get; set; }
         public bool IsCached { get; set; }
         public int ExpirationTimeSec { get; set; }
+    }
+
+    public interface ITcpSubnet
+    {
+        int Subnet { get; set; }
+    }
+
+    public class FindNodeSubnetRequest : FindNodeRequest, ITcpSubnet
+    {
+        public int Subnet { get; set; }
+    }
+
+    public class FindValueSubnetRequest : FindValueRequest, ITcpSubnet
+    {
+        public int Subnet { get; set; }
+    }
+
+    public class PingSubnetRequest : PingRequest, ITcpSubnet
+    {
+        public int Subnet { get; set; }
+    }
+
+    public class StoreSubnetRequest : StoreRequest, ITcpSubnet
+    {
+        public int Subnet { get; set; }
     }
 }

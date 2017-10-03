@@ -50,8 +50,11 @@
     <Compile Include="Requests.cs" />
     <Compile Include="Responses.cs" />
     <Compile Include="RestCall.cs" />
-    <Compile Include="TcpSubnetProtocol.cs" />
-    <Compile Include="TcpSubnetServer.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="TcpSubnet\TcpSubnetProtocol.cs" />
+    <Compile Include="TcpSubnet\TcpSubnetServer.cs" />
+    <Compile Include="Tcp\TcpProtocol.cs" />
+    <Compile Include="Tcp\TcpServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Clifton.Kademlia.Common\Clifton.Kademlia.Common.csproj">
