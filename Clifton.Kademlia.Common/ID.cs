@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
+using System.Text;
 
 using Newtonsoft.Json;
 
@@ -137,6 +139,15 @@ namespace Clifton.Kademlia.Common
         {
             bool ok = BigInteger.TryParse(strid, out id);
             Validate.IsTrue<BadIDException>(ok, "ID string is not valid.");
+        }
+
+        public static ID FromString(string str)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(str);
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            byte[] id = sha.ComputeHash(bytes);
+
+            return new ID(id);
         }
 
         /// <summary>

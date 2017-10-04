@@ -19,11 +19,9 @@ namespace Clifton.Kademlia.Protocols
         // For serialization:
         public string Url { get { return url; } set { url = value; } }
         public int Port { get { return port; } set { port = value; } }
-        public int Subnet { get { return subnet; } set { subnet = value; } }
 
         protected string url;
         protected int port;
-        protected int subnet;
 
         /// <summary>
         /// For serialization.
@@ -32,11 +30,10 @@ namespace Clifton.Kademlia.Protocols
         {
         }
 
-        public TcpProtocol(string url, int port, int subnet)
+        public TcpProtocol(string url, int port)
         {
             this.url = url;
             this.port = port;
-            this.subnet = subnet;
 
 #if DEBUG
             Responds = true;
@@ -54,7 +51,6 @@ namespace Clifton.Kademlia.Protocols
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
-                    Subnet = subnet,
                     Sender = sender.ID.Value,
                     Key = key.Value,
                     RandomID = id.Value
@@ -90,7 +86,6 @@ namespace Clifton.Kademlia.Protocols
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
-                    Subnet = subnet,
                     Sender = sender.ID.Value,
                     Key = key.Value,
                     RandomID = id.Value
@@ -120,7 +115,6 @@ namespace Clifton.Kademlia.Protocols
                 {
                     Protocol = sender.Protocol,
                     ProtocolName = sender.Protocol.GetType().Name,
-                    Subnet = subnet,
                     Sender = sender.ID.Value,
                     RandomID = id.Value
                 }, 
@@ -140,7 +134,6 @@ namespace Clifton.Kademlia.Protocols
                     {
                         Protocol = sender.Protocol,
                         ProtocolName = sender.Protocol.GetType().Name,
-                        Subnet = subnet,
                         Sender = sender.ID.Value,
                         Key = key.Value,
                         Value = val,

@@ -44,7 +44,6 @@ namespace Clifton.Kademlia.Common
 
     public interface IStorage
     {
-        bool HasValues { get; }
         bool Contains(ID key);
         bool TryGetValue(ID key, out string val);
         string Get(ID key);

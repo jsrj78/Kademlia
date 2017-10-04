@@ -283,6 +283,11 @@ namespace Clifton.Kademlia.Common
             return Encoding.UTF8.GetBytes(str);
         }
 
+        public static int to_i(this string str)
+        {
+            return Convert.ToInt32(str);
+        }
+
         /*
         public static IEnumerable<T> WhereAll<T>(this IEnumerable<T> a, IEnumerable<T> b, Func<T, T, bool> comparator)
         {

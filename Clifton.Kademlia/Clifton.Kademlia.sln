@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clifton.Kademlia", "Clifton.Kademlia.csproj", "{09B2544A-C451-43CF-8BF0-7229601CF27B}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clifton.Kademlia.Protocols", "..\Clifton.Kademlia.Protocols\Clifton.Kademlia.Protocols.csproj", "{AF70116A-C62F-48B8-8AAC-C079F068BF3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clifton.Kademlia.UnitTests", "..\Clifton.Kademlia.UnitTests\Clifton.Kademlia.UnitTests.csproj", "{CA3D2A92-DBB3-4C27-A4D2-B58B2A59B40C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clifton.Kademlia.Store.DBreeze", "..\Clifton.Kademlia.Store.DBreeze\Clifton.Kademlia.Store.DBreeze.csproj", "{1C79590D-7D66-43D9-A8B2-1FF9400F5197}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KademliaControlPanel", "KademliaControlPanel\KademliaControlPanel.csproj", "{EA42DE9B-5BD7-45FA-9815-706010AEF84C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +42,14 @@ Global
 		{CA3D2A92-DBB3-4C27-A4D2-B58B2A59B40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA3D2A92-DBB3-4C27-A4D2-B58B2A59B40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA3D2A92-DBB3-4C27-A4D2-B58B2A59B40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C79590D-7D66-43D9-A8B2-1FF9400F5197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C79590D-7D66-43D9-A8B2-1FF9400F5197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C79590D-7D66-43D9-A8B2-1FF9400F5197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C79590D-7D66-43D9-A8B2-1FF9400F5197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA42DE9B-5BD7-45FA-9815-706010AEF84C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA42DE9B-5BD7-45FA-9815-706010AEF84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA42DE9B-5BD7-45FA-9815-706010AEF84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA42DE9B-5BD7-45FA-9815-706010AEF84C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

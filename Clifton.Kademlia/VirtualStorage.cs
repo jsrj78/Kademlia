@@ -10,13 +10,6 @@ using Clifton.Kademlia.Common;
 
 namespace Clifton.Kademlia
 {
-    public class StoreValue
-    {
-        public string Value { get; set; }
-        public DateTime RepublishTimeStamp { get; set; }
-        public int ExpirationTime { get; set; }
-    }
-
     /// <summary>
     /// In-memory storage, used for node cache store if not explicitly specified.
     /// </summary>
