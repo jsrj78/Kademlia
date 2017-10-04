@@ -24,14 +24,24 @@ namespace Clifton.Kademlia
         [JsonIgnore]
         public Node Node { get { return node; } set { node = value; } }
 
-        public IStorage RepublishStorage { get { return republishStorage; } set { republishStorage = value; } }
-        public IStorage OriginatorStorage { get { return originatorStorage; } set { originatorStorage = value; } }
-        public Contact Contact { get { return ourContact; } set { ourContact = value; } }
+        [JsonIgnore]
+        public IStorage CacheStorage { get { return cacheStorage; } set { cacheStorage = value; } }
 
         [JsonIgnore]
         public ID ID { get { return ourId; } set { ourId = value; } }
+
         [JsonIgnore]
         public IProtocol Protocol { get { return protocol; } set { protocol = value; } }
+
+        [JsonIgnore]
+        public int PendingPeersCount { get { lock (pendingContacts) { return pendingContacts.Count; } } }
+
+        [JsonIgnore]
+        public int PendingEvictionCount { get { return evictionCount.Count; } }
+
+        public IStorage RepublishStorage { get { return republishStorage; } set { republishStorage = value; } }
+        public IStorage OriginatorStorage { get { return originatorStorage; } set { originatorStorage = value; } }
+        public Contact Contact { get { return ourContact; } set { ourContact = value; } }
 
         protected BaseRouter router;
         protected IStorage originatorStorage;
@@ -332,6 +342,19 @@ namespace Clifton.Kademlia
             int idxb = allContacts.IndexOf(b);
 
             return Math.Abs(idxa - idxb);
+        }
+
+        public void FinishLoad()
+        {
+            evictionCount = new ConcurrentDictionary<BigInteger, int>();
+            pendingContacts = new List<Contact>();
+            node.Storage = republishStorage;
+            node.CacheStorage = cacheStorage;
+            node.Dht = this;
+            node.BucketList.Dht = this;
+            router.Node = node;
+            router.Dht = this;
+            SetupTimers();
         }
 
         protected void FinishInitialization(ID id, IProtocol protocol, BaseRouter router)

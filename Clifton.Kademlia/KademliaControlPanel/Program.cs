@@ -14,9 +14,9 @@ namespace KademliaControlPanel
     {
         public static TcpServer server;
         public static Dht dht;
-        public static DBreezeStore localStore;
-        public static DBreezeStore republishStore;
-        public static VirtualStorage cacheStore;
+        public static IStorage localStore;
+        public static IStorage republishStore;
+        public static IStorage cacheStore;
 
         public static string url;
         public static int port;
@@ -63,6 +63,11 @@ namespace KademliaControlPanel
                 dht = Dht.Load(File.ReadAllText(DHT_FILENAME));
                 ((DBreezeStore)dht.OriginatorStorage).Open(fnLocalStore);
                 ((DBreezeStore)dht.RepublishStorage).Open(fnRepublishStore);
+                localStore = dht.OriginatorStorage;
+                republishStore = dht.RepublishStorage;
+                cacheStore = new VirtualStorage();
+                dht.CacheStorage = cacheStore;
+                dht.FinishLoad();
             }
             else
             {
