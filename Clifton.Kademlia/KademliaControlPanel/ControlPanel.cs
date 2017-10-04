@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 using Clifton.Kademlia.Common;
@@ -14,7 +15,7 @@ namespace KademliaControlPanel
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            // TODO: Save Dht
+            File.WriteAllText(Program.DHT_FILENAME, Program.dht.Save());
             Close();
         }
 

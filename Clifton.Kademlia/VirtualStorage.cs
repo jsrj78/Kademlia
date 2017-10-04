@@ -16,9 +16,6 @@ namespace Clifton.Kademlia
     public class VirtualStorage : IStorage
     {
         [JsonIgnore]
-        public bool HasValues { get { return store.Count > 0; } }
-
-        [JsonIgnore]
         public List<BigInteger> Keys { get { return new List<BigInteger>(store.Keys); } }
 
         protected ConcurrentDictionary<BigInteger, StoreValue> store;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
 using System.Windows.Forms;
 
 using Clifton.Kademlia;
@@ -23,6 +24,7 @@ namespace KademliaControlPanel
         public static string fnLocalStore;
         public static string fnRepublishStore;
 
+        public const string DHT_FILENAME = "kademlia.dht";
         private const string CONFIG_URL = "url";
         private const string CONFIG_PORT = "port";
         private const string CONFIG_PEER_ID = "peerID";
@@ -55,10 +57,20 @@ namespace KademliaControlPanel
         private static void InitializeKademlia()
         {
             ID id = new ID(peerID);
-            localStore = new DBreezeStore(fnLocalStore);
-            republishStore = new DBreezeStore(fnRepublishStore);
-            cacheStore = new VirtualStorage();
-            dht = new Dht(id, new TcpProtocol(url, port), new ParallelRouter(), localStore, republishStore, cacheStore);
+
+            if (File.Exists(DHT_FILENAME))
+            {
+                dht = Dht.Load(File.ReadAllText(DHT_FILENAME));
+                ((DBreezeStore)dht.OriginatorStorage).Open(fnLocalStore);
+                ((DBreezeStore)dht.RepublishStorage).Open(fnRepublishStore);
+            }
+            else
+            {
+                localStore = new DBreezeStore(fnLocalStore);
+                republishStore = new DBreezeStore(fnRepublishStore);
+                cacheStore = new VirtualStorage();
+                dht = new Dht(id, new TcpProtocol(url, port), new ParallelRouter(), localStore, republishStore, cacheStore);
+            }
         }
 
         private static void InitializeServer()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 using DBreeze;
@@ -11,14 +12,32 @@ namespace Clifton.Kademlia.Store.DBreeze
 {
     public class DBreezeStore : IStorage, IDisposable
     {
-        public bool HasValues => throw new NotImplementedException();
-        public List<BigInteger> Keys => throw new NotImplementedException();
+        [JsonIgnore]
+        public List<BigInteger> Keys
+        {
+            get
+            {
+                using (var tran = db.GetTransaction())
+                {
+                    return tran.SelectForward<string, string>(TABLE_NAME).Select(r => new ID(r.Key).Value).ToList();
+                }
+            }
+        }
 
         protected DBreezeEngine db;
         protected bool disposed = false;
         protected const string TABLE_NAME = "Kademlia";
 
+        public DBreezeStore()
+        {
+        }
+
         public DBreezeStore(string fn)
+        {
+            Open(fn);
+        }
+
+        public void Open(string fn)
         {
             db = new DBreezeEngine(fn);
         }
