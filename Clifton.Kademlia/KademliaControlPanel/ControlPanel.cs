@@ -3,7 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using Clifton.Kademlia;
 using Clifton.Kademlia.Common;
+using Clifton.Kademlia.Protocols;
 
 namespace KademliaControlPanel
 {
@@ -51,14 +53,22 @@ namespace KademliaControlPanel
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshStatus();
+        }
+
+        private void btnPing_Click(object sender, EventArgs e)
+        {
+            IProtocol protocol = new TcpProtocol(tbUrl.Text, tbPort.Text.to_i());
+            RpcError err = protocol.Ping(Program.dht.Contact);
+
+            if (err.HasError)
+            {
+                MessageBox.Show("Peer error: " + err.PeerErrorMessage + "\r\n" + 
+                    "Protocol error: " + err.ProtocolErrorMessage + "\r\n" +
+                    "Timeout: " + err.TimeoutError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

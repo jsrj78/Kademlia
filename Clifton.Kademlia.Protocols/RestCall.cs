@@ -75,6 +75,7 @@ namespace Clifton.Kademlia.Protocols
             {
                 E error = Activator.CreateInstance<E>();
                 error.ErrorMessage = ex.Message;
+                errorResponse = error;
 
                 // Bail now.
                 return target;
@@ -113,6 +114,7 @@ namespace Clifton.Kademlia.Protocols
             {
                 E error = Activator.CreateInstance<E>();
                 error.ErrorMessage = ex.Message;
+                errorResponse = error;
             }
 
             st.Close();

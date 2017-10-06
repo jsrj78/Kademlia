@@ -45,24 +45,31 @@
             this.tbRetrieveKey = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.tbCacheStore = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbRepublishStore = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbOriginatingStore = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tbPendingEviction = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tbPendingPeers = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tbPeers = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbPendingEviction = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbOriginatingStore = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbRepublishStore = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tbCacheStore = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.btnRefresh = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbUrl = new System.Windows.Forms.TextBox();
+            this.tbPort = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btnPing = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbStore.SuspendLayout();
             this.tbRetrieve.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -237,6 +244,84 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(169, 19);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(102, 23);
+            this.btnRefresh.TabIndex = 13;
+            this.btnRefresh.Text = "Refresh Now";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // tbCacheStore
+            // 
+            this.tbCacheStore.Location = new System.Drawing.Point(125, 181);
+            this.tbCacheStore.Name = "tbCacheStore";
+            this.tbCacheStore.ReadOnly = true;
+            this.tbCacheStore.Size = new System.Drawing.Size(100, 20);
+            this.tbCacheStore.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 184);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(69, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Cache Store:";
+            // 
+            // tbRepublishStore
+            // 
+            this.tbRepublishStore.Location = new System.Drawing.Point(125, 155);
+            this.tbRepublishStore.Name = "tbRepublishStore";
+            this.tbRepublishStore.ReadOnly = true;
+            this.tbRepublishStore.Size = new System.Drawing.Size(100, 20);
+            this.tbRepublishStore.TabIndex = 10;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(12, 158);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Republish Store:";
+            // 
+            // tbOriginatingStore
+            // 
+            this.tbOriginatingStore.Location = new System.Drawing.Point(125, 129);
+            this.tbOriginatingStore.Name = "tbOriginatingStore";
+            this.tbOriginatingStore.ReadOnly = true;
+            this.tbOriginatingStore.Size = new System.Drawing.Size(100, 20);
+            this.tbOriginatingStore.TabIndex = 8;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 132);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(88, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Originating Store:";
+            // 
+            // tbPendingEviction
+            // 
+            this.tbPendingEviction.Location = new System.Drawing.Point(125, 103);
+            this.tbPendingEviction.Name = "tbPendingEviction";
+            this.tbPendingEviction.ReadOnly = true;
+            this.tbPendingEviction.Size = new System.Drawing.Size(100, 20);
+            this.tbPendingEviction.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 106);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Pending Eviction:";
+            // 
             // tbPendingPeers
             // 
             this.tbPendingPeers.Location = new System.Drawing.Point(125, 77);
@@ -244,7 +329,6 @@
             this.tbPendingPeers.ReadOnly = true;
             this.tbPendingPeers.Size = new System.Drawing.Size(100, 20);
             this.tbPendingPeers.TabIndex = 4;
-            this.tbPendingPeers.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label7
             // 
@@ -272,89 +356,70 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "Peers:";
             // 
-            // tbPendingEviction
+            // groupBox2
             // 
-            this.tbPendingEviction.Location = new System.Drawing.Point(125, 103);
-            this.tbPendingEviction.Name = "tbPendingEviction";
-            this.tbPendingEviction.ReadOnly = true;
-            this.tbPendingEviction.Size = new System.Drawing.Size(100, 20);
-            this.tbPendingEviction.TabIndex = 6;
+            this.groupBox2.Controls.Add(this.btnPing);
+            this.groupBox2.Controls.Add(this.tbPort);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.tbUrl);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Location = new System.Drawing.Point(306, 28);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(377, 112);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Peer:";
             // 
-            // label5
+            // label11
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 106);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Pending Eviction:";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(32, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "URL:";
             // 
-            // tbOriginatingStore
+            // tbUrl
             // 
-            this.tbOriginatingStore.Location = new System.Drawing.Point(125, 129);
-            this.tbOriginatingStore.Name = "tbOriginatingStore";
-            this.tbOriginatingStore.ReadOnly = true;
-            this.tbOriginatingStore.Size = new System.Drawing.Size(100, 20);
-            this.tbOriginatingStore.TabIndex = 8;
+            this.tbUrl.Location = new System.Drawing.Point(62, 17);
+            this.tbUrl.Name = "tbUrl";
+            this.tbUrl.Size = new System.Drawing.Size(150, 20);
+            this.tbUrl.TabIndex = 1;
+            this.tbUrl.Text = "http://24.105.201.179";
             // 
-            // label8
+            // tbPort
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 132);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(88, 13);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "Originating Store:";
+            this.tbPort.Location = new System.Drawing.Point(62, 43);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(84, 20);
+            this.tbPort.TabIndex = 3;
+            this.tbPort.Text = "3001";
             // 
-            // tbRepublishStore
+            // label12
             // 
-            this.tbRepublishStore.Location = new System.Drawing.Point(125, 155);
-            this.tbRepublishStore.Name = "tbRepublishStore";
-            this.tbRepublishStore.ReadOnly = true;
-            this.tbRepublishStore.Size = new System.Drawing.Size(100, 20);
-            this.tbRepublishStore.TabIndex = 10;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 13);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "Port:";
             // 
-            // label9
+            // btnPing
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 158);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(85, 13);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Republish Store:";
-            // 
-            // tbCacheStore
-            // 
-            this.tbCacheStore.Location = new System.Drawing.Point(125, 181);
-            this.tbCacheStore.Name = "tbCacheStore";
-            this.tbCacheStore.ReadOnly = true;
-            this.tbCacheStore.Size = new System.Drawing.Size(100, 20);
-            this.tbCacheStore.TabIndex = 12;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 184);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(69, 13);
-            this.label10.TabIndex = 11;
-            this.label10.Text = "Cache Store:";
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(169, 19);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(102, 23);
-            this.btnRefresh.TabIndex = 13;
-            this.btnRefresh.Text = "Refresh Now";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.btnPing.Location = new System.Drawing.Point(10, 81);
+            this.btnPing.Name = "btnPing";
+            this.btnPing.Size = new System.Drawing.Size(75, 23);
+            this.btnPing.TabIndex = 4;
+            this.btnPing.Text = "Ping";
+            this.btnPing.UseVisualStyleBackColor = true;
+            this.btnPing.Click += new System.EventHandler(this.btnPing_Click);
             // 
             // ControlPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(721, 445);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -370,6 +435,8 @@
             this.tbRetrieve.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -407,6 +474,12 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbPendingEviction;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnPing;
+        private System.Windows.Forms.TextBox tbPort;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox tbUrl;
+        private System.Windows.Forms.Label label11;
     }
 }
 

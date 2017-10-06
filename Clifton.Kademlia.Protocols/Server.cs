@@ -53,12 +53,15 @@ namespace Clifton.Kademlia.Protocols
         protected void CommonRequestHandler(string methodName, CommonRequest commonRequest, INode node, HttpListenerContext context)
         {
 #if DEBUG       // For unit testing
-            if (!((TcpSubnetProtocol)node.OurContact.Protocol).Responds)
+            if (node.OurContact.Protocol is TcpSubnetProtocol)
             {
-                // Exceeds 500ms timeout.
-                System.Threading.Thread.Sleep(1000);
-                context.Response.Close();
-                return;         // bail now.
+                if (!((TcpSubnetProtocol)node.OurContact.Protocol).Responds)
+                {
+                    // Exceeds 500ms timeout.
+                    System.Threading.Thread.Sleep(1000);
+                    context.Response.Close();
+                    return;         // bail now.
+                }
             }
 #endif
 
