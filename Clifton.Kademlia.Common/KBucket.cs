@@ -91,7 +91,7 @@ namespace Clifton.Kademlia.Common
 		/// <summary>
 		/// Replaces the contact with the new contact, thus updating the LastSeen and network addressinfo. 
 		/// </summary>
-		public void ReplaceContact(Contact contact)
+		public void UpdateContactInfo(Contact contact)
 		{
 			contacts.Remove(contacts.Single(c => c.ID == contact.ID));
 			contacts.Add(contact);

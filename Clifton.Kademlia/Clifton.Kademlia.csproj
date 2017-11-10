@@ -49,6 +49,7 @@
     <Compile Include="BucketList.cs" />
     <Compile Include="ContactQueueItem.cs" />
     <Compile Include="Dht.cs" />
+    <Compile Include="EventArgs.cs" />
     <Compile Include="FindResult.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="ParallelRouter.cs" />

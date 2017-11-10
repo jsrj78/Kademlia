@@ -12,6 +12,7 @@ namespace Clifton.Kademlia.Common
 
     public interface IDht
     {
+        void ContactAddedToBucket(KBucket bucket, Contact contact);
         void DelayEviction(Contact toEvict, Contact toReplace);
         void AddToPending(Contact pending);
     }
@@ -30,7 +31,12 @@ namespace Clifton.Kademlia.Common
 
     public interface IProtocol
     {
+        string Description { get; }
+        string Url { get; }
+        int Port { get; }
+        int Subnet { get; }
         RpcError Ping(Contact sender);
+        RpcError PingBack(Contact sender);
         (List<Contact> contacts, RpcError error) FindNode(Contact sender, ID key);
         (List<Contact> contacts, string val, RpcError error) FindValue(Contact sender, ID key);
         RpcError Store(Contact sender, ID key, string val, bool isCached = false, int expirationTimeSec = 0);

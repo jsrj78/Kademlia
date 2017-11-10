@@ -17,6 +17,7 @@ namespace Clifton.Kademlia.Protocols
         protected Dictionary<string, Type> routePackets = new Dictionary<string, Type>
         {
             {"//Ping", typeof(PingSubnetRequest) },
+            {"//PingBack", typeof(PingSubnetRequest) },
             {"//Store", typeof(StoreSubnetRequest) },
             {"//FindNode", typeof(FindNodeSubnetRequest) },
             {"//FindValue", typeof(FindValueSubnetRequest) },
@@ -47,7 +48,7 @@ namespace Clifton.Kademlia.Protocols
                 string path = context.Request.RawUrl;
                 // Remove "//"
                 // Prefix our call with "Server" so that the method name is unambiguous.
-                string methodName = "Server" + path.Substring(2);
+                string methodName = SERVER_METHOD_PREFIX + path.Substring(2);
 
                 if (routePackets.TryGetValue(path, out requestType))
                 {

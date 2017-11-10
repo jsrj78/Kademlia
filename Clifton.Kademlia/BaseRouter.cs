@@ -105,7 +105,7 @@ namespace Clifton.Kademlia.Common
             var (newContacts, timeoutError) = contact.Protocol.FindNode(node.OurContact, key);
 
             // Null continuation here to support unit tests where a DHT hasn't been set up.
-            dht?.HandleError(timeoutError, contact);
+            dht?.HandleAnyError(timeoutError, contact);
             
             return (newContacts, null, null);
         }
@@ -121,7 +121,7 @@ namespace Clifton.Kademlia.Common
             Contact foundBy = null;
 
             var (otherContacts, val, error) = contact.Protocol.FindValue(node.OurContact, key);
-            dht.HandleError(error, contact);
+            dht.HandleAnyError(error, contact);
 
             if (!error.HasError)
             {

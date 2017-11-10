@@ -74,7 +74,7 @@ namespace Clifton.Kademlia
                 if (kbucket.Contains(contact.ID))
                 {
                     // Replace the existing contact, updating the network info and LastSeen timestamp.
-                    kbucket.ReplaceContact(contact);
+                    kbucket.UpdateContactInfo(contact);
                 }
                 else if (kbucket.IsBucketFull)
                 {
@@ -110,6 +110,7 @@ namespace Clifton.Kademlia
                 {
                     // Bucket isn't full, so just add the contact.
                     kbucket.AddContact(contact);
+                    dht.ContactAddedToBucket(kbucket, contact);
                 }
             }
         }

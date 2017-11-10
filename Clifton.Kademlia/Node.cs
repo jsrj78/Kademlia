@@ -57,6 +57,14 @@ namespace Clifton.Kademlia
             return new { RandomID = request.RandomID };
         }
 
+        public object ServerPingBack(CommonRequest request)
+        {
+            IProtocol protocol = Protocol.InstantiateProtocol(request.Protocol, request.ProtocolName);
+            PingBack(new Contact(protocol, new ID(request.Sender)));
+
+            return new { RandomID = request.RandomID };
+        }
+
         public object ServerStore(CommonRequest request)
         {
             IProtocol protocol = Protocol.InstantiateProtocol(request.Protocol, request.ProtocolName);
@@ -110,6 +118,24 @@ namespace Clifton.Kademlia
         public Contact Ping(Contact sender)
         {
             Validate.IsFalse<SendingQueryToSelfException>(sender.ID == ourContact.ID, "Sender should not be ourself!");
+            // Not in spec...ping the sender to verify sender.
+            RpcError err = sender.Protocol.PingBack(ourContact);
+
+            if (!err.HasError)
+            {
+                SendKeyValuesIfNewContact(sender);
+                bucketList.AddContact(sender);
+            }
+
+            return ourContact;
+        }
+
+        /// <summary>
+        /// The node we are pinging is pinging us back.
+        /// </summary>
+        public Contact PingBack(Contact sender)
+        {
+            Validate.IsFalse<SendingQueryToSelfException>(sender.ID == ourContact.ID, "Sender should not be ourself!");
             SendKeyValuesIfNewContact(sender);
             bucketList.AddContact(sender);
 
@@ -126,12 +152,24 @@ namespace Clifton.Kademlia
 
             if (isCached)
             {
+                bool keyExists = cacheStorage.Contains(key);
                 cacheStorage.Set(key, val, expirationTimeSec);
+
+                if (!keyExists)
+                {
+                    dht.AddedToCacheStore(key);
+                }
             }
             else
             {
+                bool keyExists = cacheStorage.Contains(key);
                 SendKeyValuesIfNewContact(sender);
                 storage.Set(key, val, Constants.EXPIRATION_TIME_SECONDS);
+
+                if (!keyExists)
+                {
+                    dht.AddedToRepublishStore(key);
+                }
             }
         }
 
@@ -212,7 +250,7 @@ namespace Clifton.Kademlia
                     if ((k ^ ourContact.ID) < distance)
                         {
                             var error = sender.Protocol.Store(ourContact, new ID(k), storage.Get(k));
-                            dht?.HandleError(error, sender);
+                            dht?.HandleAnyError(error, sender);
                         }
                     });
                 }

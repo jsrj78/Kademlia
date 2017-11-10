@@ -20,6 +20,7 @@ namespace Clifton.Kademlia.Protocols
         public string Url { get { return url; } set { url = value; } }
         public int Port { get { return port; } set { port = value; } }
         public int Subnet { get { return subnet; } set { subnet = value; } }
+        public string Description { get { return Url + ":" + Port + ":" + Subnet; } }
 
         protected string url;
         protected int port;
@@ -124,6 +125,33 @@ namespace Clifton.Kademlia.Protocols
                     Sender = sender.ID.Value,
                     RandomID = id.Value
                 }, 
+                out error, out timeoutError);
+
+            return GetRpcError(id, ret, timeoutError, error);
+        }
+
+        /// <summary>
+        /// PingBack is called in response to a ping for a few reasons:
+        /// 1. This registers the node we're pinging in the sender's list of peers
+        /// 2. It minimally verifies that the sender is a peer.
+        /// 3. We can't simply ping the sender of the ping we received, as this would create an infinite loop of ping - reping.
+        /// NOTE: THIS IS NOT IN THE KADEMLIA SPEC EXCEPT FOR DISCUSSION OF "piggyback" PING RESPONSE.
+        /// </summary>
+        public RpcError PingBack(Contact sender)
+        {
+            ErrorResponse error;
+            ID id = ID.RandomID;
+            bool timeoutError;
+
+            var ret = RestCall.Post<FindValueResponse, ErrorResponse>(url + ":" + port + "//PingBack",
+                new PingSubnetRequest()
+                {
+                    Protocol = sender.Protocol,
+                    ProtocolName = sender.Protocol.GetType().Name,
+                    Subnet = subnet,
+                    Sender = sender.ID.Value,
+                    RandomID = id.Value
+                },
                 out error, out timeoutError);
 
             return GetRpcError(id, ret, timeoutError, error);

@@ -43,6 +43,16 @@ namespace Clifton.Kademlia
         public IStorage OriginatorStorage { get { return originatorStorage; } set { originatorStorage = value; } }
         public Contact Contact { get { return ourContact; } set { ourContact = value; } }
 
+        public event EventHandler<ContactEventArgs> PendingContactAdded;
+        public event EventHandler<ContactEventArgs> PendingContactRemoved;
+        public event EventHandler<ContactEventArgs> ContactAdded;
+        public event EventHandler<ContactEventArgs> ContactRemoved;
+        public event EventHandler<StoreEventArgs> OriginatorStoreAdded;
+        public event EventHandler<StoreEventArgs> RepublishStoreAdded;
+        public event EventHandler<StoreEventArgs> CacheStoreAdded;
+        public event EventHandler<StoreEventArgs> RepublishStoreRemoved;
+        public event EventHandler<StoreEventArgs> CacheStoreRemoved;
+
         protected BaseRouter router;
         protected IStorage originatorStorage;
         protected IStorage republishStorage;
@@ -126,7 +136,7 @@ namespace Clifton.Kademlia
             node.Dht = this;
         }
 
-/// <summary>
+        /// <summary>
         /// Bootstrap our peer by contacting another peer, adding its contacts
         /// to our list, then getting the contacts for other peers not in the
         /// bucket range of our known peer we're joining.
@@ -135,7 +145,7 @@ namespace Clifton.Kademlia
         {
             node.BucketList.AddContact(knownPeer);
             var (contacts, error) = knownPeer.Protocol.FindNode(ourContact, ourId);
-            HandleError(error, knownPeer);
+            HandleAnyError(error, knownPeer);
 
             if (!error.HasError)
             {
@@ -160,6 +170,7 @@ namespace Clifton.Kademlia
 
             // We're storing to k closer contacts.
             originatorStorage.Set(key, val);
+            OriginatorStoreAdded?.Invoke(this, new StoreEventArgs() { Key = key.Value });
 			StoreOnCloserContacts(key, val);
         }
 
@@ -201,7 +212,7 @@ namespace Clifton.Kademlia
                         int separatingNodes = GetSeparatingNodesCount(ourContact, storeTo);
                         int expTimeSec = (int)(Constants.EXPIRATION_TIME_SECONDS / Math.Pow(2, separatingNodes));
                         RpcError error = storeTo.Protocol.Store(node.OurContact, key, lookup.val, true, expTimeSec);
-                        HandleError(error, storeTo);
+                        HandleAnyError(error, storeTo);
                     }
                 }
             }
@@ -230,18 +241,21 @@ namespace Clifton.Kademlia
 #endif
 
         /// <summary>
-        /// Put the timed out contact into a collection and increment the number of times it has timed out.
+        /// Put contact with an error into a collection and increment the number of times it has timed out.
         /// If it has timed out a certain amount, remove it from the bucket and replace it with the most
         /// recent pending contact that are queued for that bucket.
         /// </summary>
-        public void HandleError(RpcError error, Contact contact)
+        public void HandleAnyError(RpcError error, Contact contact)
         {
-            // For all errors:
-            int count = AddContactToEvict(contact.ID.Value);
-
-            if (count == Constants.EVICTION_LIMIT)
+            if (error.HasError)
             {
-                ReplaceContact(contact);
+                // For all errors:
+                int count = AddContactToEvict(contact.ID.Value);
+
+                if (count == Constants.EVICTION_LIMIT)
+                {
+                    ReplaceContact(contact);
+                }
             }
         }
 
@@ -249,7 +263,7 @@ namespace Clifton.Kademlia
         {
             lock (pendingContacts)
             {
-                pendingContacts.AddDistinctBy(pending, c => c.ID);
+                pendingContacts.AddDistinctBy(pending, c => c.ID, (c) => PendingContactAdded?.Invoke(this, new ContactEventArgs() { Contact = c }));
             }
         }
 
@@ -265,7 +279,7 @@ namespace Clifton.Kademlia
             lock (pendingContacts)
             {
                 // Add only if it's a new pending contact.
-                pendingContacts.AddDistinctBy(toReplace, c=>c.ID);
+                pendingContacts.AddDistinctBy(toReplace, c=>c.ID, (c) => PendingContactAdded?.Invoke(this, new ContactEventArgs() { Contact = c }));
             }
 
             BigInteger key = toEvict.ID.Value;
@@ -307,6 +321,7 @@ namespace Clifton.Kademlia
             evictionCount.TryRemove(toEvict.ID.Value, out _);
             Validate.IsTrue<BucketDoesNotContainContactToEvict>(bucket.Contains(toEvict.ID), "Bucket doesn't contain the contact to be evicted.");
             bucket.EvictContact(toEvict);
+            ContactRemoved?.Invoke(this, new ContactEventArgs() { Contact = toEvict });
         }
 
         /// <summary>
@@ -325,9 +340,31 @@ namespace Clifton.Kademlia
                 {
                     pendingContacts.Remove(contact);
                     bucket.AddContact(contact);
+                    PendingContactRemoved?.Invoke(this, new ContactEventArgs() { Contact = contact });
+                    ContactAdded?.Invoke(this, new ContactEventArgs() { Contact = contact });
                 }
             }
         }
+
+        // ========================================
+        // Callback to DHT to invoke event handlers
+
+        public void ContactAddedToBucket(KBucket bucket, Contact contact)
+        {
+            ContactAdded?.Invoke(this, new ContactEventArgs() { Contact = contact });
+        }
+
+        public void AddedToCacheStore(ID key)
+        {
+            CacheStoreAdded?.Invoke(this, new StoreEventArgs() { Key = key.Value });
+        }
+
+        public void AddedToRepublishStore(ID key)
+        {
+            RepublishStoreAdded?.Invoke(this, new StoreEventArgs() { Key = key.Value });
+        }
+
+        // ========================================
 
         /// <summary>
         /// Return the number of nodes between the two contacts, where the contact list is sorted by the integer ID values (not XOR distance.)
@@ -457,7 +494,7 @@ namespace Clifton.Kademlia
                 contacts.ForEach(c =>
                 {
                     RpcError error = c.Protocol.Store(ourContact, key, originatorStorage.Get(key));
-                    HandleError(error, c);
+                    HandleAnyError(error, c);
                 });
 
                 originatorStorage.Touch(k);
@@ -469,18 +506,25 @@ namespace Clifton.Kademlia
         /// </summary>
         protected virtual void ExpireKeysElapsed(object sender, ElapsedEventArgs e)
         {
-            RemoveExpiredData(cacheStorage);
-            RemoveExpiredData(republishStorage);
+            List<BigInteger> cacheRemoved = RemoveExpiredData(cacheStorage);
+            List<BigInteger> republishRemoved = RemoveExpiredData(republishStorage);
+
+            cacheRemoved.ForEach(k => CacheStoreRemoved?.Invoke(this, new StoreEventArgs() { Key = k }));
+            republishRemoved.ForEach(k => RepublishStoreRemoved?.Invoke(this, new StoreEventArgs() { Key = k }));
         }
 
-        protected void RemoveExpiredData(IStorage store)
+        protected List<BigInteger> RemoveExpiredData(IStorage store)
         {
+            List<BigInteger> removedKeys = new List<BigInteger>();
             DateTime now = DateTime.Now;
             // ToList so our key list is resolved now as we remove keys.
             store.Keys.Where(k => (now - store.GetTimeStamp(k)).TotalSeconds >= store.GetExpirationTimeSec(k)).ToList().ForEach(k =>
             {
+                removedKeys.Add(k);
                 store.Remove(k);
             });
+
+            return removedKeys;
         }
 
         /// <summary>
@@ -507,7 +551,7 @@ namespace Clifton.Kademlia
             contacts.ForEach(c =>
             {
                 RpcError error = c.Protocol.Store(node.OurContact, key, val);
-                HandleError(error, c);
+                HandleAnyError(error, c);
             });
 		}
 
@@ -521,7 +565,7 @@ namespace Clifton.Kademlia
             contacts.ForEach(c =>
             {
                 var (newContacts, timeoutError) = c.Protocol.FindNode(ourContact, rndId);
-                HandleError(timeoutError, c);
+                HandleAnyError(timeoutError, c);
                 newContacts?.ForEach(otherContact => node.BucketList.AddContact(otherContact));
             });
         }

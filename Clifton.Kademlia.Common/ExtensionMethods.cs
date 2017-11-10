@@ -94,7 +94,7 @@ namespace Clifton.Kademlia.Common
             return list.Any(n => keySelector(n).Equals(itemKey));
         }
 
-        public static void AddDistinctBy<T, TKey>(this List<T> list, T item, Func<T, TKey> keySelector)
+        public static void AddDistinctBy<T, TKey>(this List<T> list, T item, Func<T, TKey> keySelector, Action<T> added = null)
         {
             TKey itemKey = keySelector(item);
 
@@ -102,6 +102,7 @@ namespace Clifton.Kademlia.Common
             if (list.None(q => keySelector(q).Equals(itemKey)))
             {
                 list.Add(item);
+                added?.Invoke(item);
             }
         }
 

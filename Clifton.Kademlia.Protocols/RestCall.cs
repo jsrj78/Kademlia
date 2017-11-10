@@ -33,7 +33,7 @@ namespace Clifton.Kademlia.Protocols
 {
     public static class RestCall
     {
-        private static int REQUEST_TIMEOUT = 500;       // 500 ms for response.
+        private static int REQUEST_TIMEOUT = 60000;       // 500 ms for response.
 
         public static string Get(string url)
         {

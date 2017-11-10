@@ -12,6 +12,8 @@ namespace Clifton.Kademlia.Protocols
 {
     public abstract class Server
     {
+        public const string SERVER_METHOD_PREFIX = "Server";
+
         protected HttpListener listener;
         protected string url;
         protected int port;
@@ -43,8 +45,12 @@ namespace Clifton.Kademlia.Protocols
             while (running)
             {
                 // Wait for a connection.  Return to caller while we wait.
-                HttpListenerContext context = listener.GetContext();
-                ProcessRequest(context);
+                try
+                {
+                    HttpListenerContext context = listener.GetContext();
+                    ProcessRequest(context);
+                }
+                finally { }
             }
         }
 

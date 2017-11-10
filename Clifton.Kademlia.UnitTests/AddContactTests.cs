@@ -163,7 +163,6 @@ namespace UnitTests2
             ((VirtualProtocol)dummyContact.Protocol).Node = new Node(dummyContact, new VirtualStorage());
             Random rnd = new Random();
 			StringBuilder sb = new StringBuilder();
-			byte[] buffer = new byte[20];
 
 			160.ForEach((i) =>
 			{
@@ -171,8 +170,7 @@ namespace UnitTests2
 
 				3200.ForEach(() =>
 				{
-					rnd.NextBytes(buffer);
-                    Contact contact = new Contact(new VirtualProtocol(), new ID(buffer));
+                    Contact contact = new Contact(new VirtualProtocol(), ID.RandomID);
                     ((VirtualProtocol)contact.Protocol).Node = new Node(contact, new VirtualStorage());
                     bucketList.AddContact(contact);
 				});

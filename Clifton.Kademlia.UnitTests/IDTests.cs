@@ -35,6 +35,15 @@ namespace UnitTests2
         }
 
         [TestMethod]
+        public void BigEndianTest()
+        {
+            byte[] test = new byte[20];
+            test[19] = 0x80;
+            Assert.IsTrue(new ID(test).AsBigEndianBool[0] == true, "Expected big endian bit 15 to be set.");
+            Assert.IsTrue(new ID(test).AsBigEndianBool[8] == false, "Expected big endian bit 7 to NOT be set.");
+        }
+
+        [TestMethod]
         public void RandomWithinBucketTests()
         {
             // Must be powers of 2.

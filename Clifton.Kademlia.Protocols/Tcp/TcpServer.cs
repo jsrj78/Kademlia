@@ -17,6 +17,7 @@ namespace Clifton.Kademlia.Protocols
         protected Dictionary<string, Type> routePackets = new Dictionary<string, Type>
         {
             {"//Ping", typeof(PingRequest) },
+            {"//PingBack", typeof(PingRequest) },
             {"//Store", typeof(StoreRequest) },
             {"//FindNode", typeof(FindNodeRequest) },
             {"//FindValue", typeof(FindValueRequest) },

@@ -12,21 +12,23 @@ namespace KademliaControlPanel
 {
     public static class Program
     {
-        public static TcpServer server;
-        public static Dht dht;
-        public static IStorage localStore;
-        public static IStorage republishStore;
-        public static IStorage cacheStore;
+        private static TcpServer server;
+        private static Dht dht;
+        private static IStorage localStore;
+        private static IStorage republishStore;
+        private static IStorage cacheStore;
 
-        public static string url;
-        public static int port;
-        public static string peerID;
-        public static string fnLocalStore;
-        public static string fnRepublishStore;
+        private static string url;
+        private static int port;
+        // private static int subnet;
+        private static string peerID;
+        private static string fnLocalStore;
+        private static string fnRepublishStore;
 
         public const string DHT_FILENAME = "kademlia.dht";
         private const string CONFIG_URL = "url";
         private const string CONFIG_PORT = "port";
+        private const string CONFIG_SUBNET = "subnet";
         private const string CONFIG_PEER_ID = "peerID";
         private const string CONFIG_LOCAL_STORE = "localStore";
         private const string CONFIG_REPUBLISH_STORE = "republishStore";
@@ -42,7 +44,7 @@ namespace KademliaControlPanel
 
             try
             {
-                Application.Run(new ControlPanel());
+                Application.Run(new ControlPanel(dht));
             }
             catch (Exception ex)
             {
@@ -90,6 +92,7 @@ namespace KademliaControlPanel
             peerID = ConfigurationManager.AppSettings[CONFIG_PEER_ID];
             url = ConfigurationManager.AppSettings[CONFIG_URL];
             port = ConfigurationManager.AppSettings[CONFIG_PORT].to_i();
+            // subnet = ConfigurationManager.AppSettings[CONFIG_SUBNET].to_i();
             fnLocalStore = ConfigurationManager.AppSettings[CONFIG_LOCAL_STORE];
             fnRepublishStore = ConfigurationManager.AppSettings[CONFIG_REPUBLISH_STORE];
         }

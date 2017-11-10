@@ -71,7 +71,7 @@ namespace UnitTests2
         /// 2. use an ID.Value == ID.Max for our node ID so all other nodes are closer.
         /// </summary>
         [TestMethod]
-        public void SimpleAllCloserContacts()
+        public void SimpleAllCloserContactsTest()
         {
             // Setup
             // By selecting our node ID to zero, we ensure that all distances of other nodes are > the distance to our node.
@@ -107,7 +107,7 @@ namespace UnitTests2
         /// 2. use an ID.Value == 0 for our node ID so all other nodes are farther.
         /// </summary>
         [TestMethod]
-        public void SimpleAllFartherContacts()
+        public void SimpleAllFartherContactsTest()
         {
             // Setup
             // By selecting our node ID to zero, we ensure that all distances of other nodes are > the distance to our node.

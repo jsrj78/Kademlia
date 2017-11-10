@@ -107,7 +107,8 @@ namespace Clifton.Kademlia.Common
         protected BigInteger id;
 
 #if DEBUG
-        public static Random rnd = new Random(1);
+        // public static Random rnd = new Random(1);
+        public static Random rnd = new Random();
 #else
         private static Random rnd = new Random();
 #endif

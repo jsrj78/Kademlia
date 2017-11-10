@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -12,6 +13,12 @@ namespace Clifton.Kademlia
         public Node Node { get; set; }
         [JsonIgnore]
         public bool Responds { get; set; }
+
+        public string Url { get { throw new NotSupportedException("Url is not supported for VirtualProtocol"); } }
+        public int Port { get { throw new NotSupportedException("Port is not supported for VirtualProtocol"); } }
+        public int Subnet { get { throw new NotSupportedException("Subnet is not supported for VirtualProtocol"); } }
+
+        public string Description { get { return "Virtual Protocol"; } }
 
         /// <summary>
         /// For serialization.
@@ -43,6 +50,17 @@ namespace Clifton.Kademlia
             if (Responds)
             {
                 Node.Ping(sender);
+            }
+
+            return new RpcError() { TimeoutError = !Responds };
+        }
+
+        public RpcError PingBack(Contact sender)
+        {
+            // Ping still adds/updates the sender's contact.
+            if (Responds)
+            {
+                Node.PingBack(sender);
             }
 
             return new RpcError() { TimeoutError = !Responds };
