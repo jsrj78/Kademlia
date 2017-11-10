@@ -110,7 +110,7 @@ namespace Clifton.Kademlia
                 {
                     // Bucket isn't full, so just add the contact.
                     kbucket.AddContact(contact);
-                    dht.ContactAddedToBucket(kbucket, contact);
+                    dht?.ContactAddedToBucket(kbucket, contact);
                 }
             }
         }

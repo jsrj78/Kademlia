@@ -157,7 +157,7 @@ namespace Clifton.Kademlia
 
                 if (!keyExists)
                 {
-                    dht.AddedToCacheStore(key);
+                    dht?.AddedToCacheStore(key);
                 }
             }
             else
@@ -168,7 +168,7 @@ namespace Clifton.Kademlia
 
                 if (!keyExists)
                 {
-                    dht.AddedToRepublishStore(key);
+                    dht?.AddedToRepublishStore(key);
                 }
             }
         }

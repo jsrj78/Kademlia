@@ -132,7 +132,10 @@ namespace UnitTests2
 
             ID testID = ID.RandomID;
             string testValue = "Test";
+            RestCall.RequestTimeout = 1;
             RpcError error = p2.Store(c1, testID, testValue);
+
+            System.Threading.Thread.Sleep(10);
 
             Assert.IsTrue(error.TimeoutError, "Expected timeout.");
         }

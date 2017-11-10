@@ -12,7 +12,7 @@ namespace Clifton.Kademlia
         [JsonIgnore]
         public Node Node { get; set; }
         [JsonIgnore]
-        public bool Responds { get; set; }
+        public bool Responds { get; set; } = true;
 
         public string Url { get { throw new NotSupportedException("Url is not supported for VirtualProtocol"); } }
         public int Port { get { throw new NotSupportedException("Port is not supported for VirtualProtocol"); } }

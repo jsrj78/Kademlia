@@ -112,6 +112,12 @@ namespace Clifton.Kademlia.Protocols
 
         public RpcError Ping(Contact sender)
         {
+            // For unit tests:
+            if (!Responds)
+            {
+                return new RpcError() { TimeoutError = !Responds };
+            }
+
             ErrorResponse error;
             ID id = ID.RandomID;
             bool timeoutError;
@@ -139,6 +145,12 @@ namespace Clifton.Kademlia.Protocols
         /// </summary>
         public RpcError PingBack(Contact sender)
         {
+            // For unit tests:
+            if (!Responds)
+            {
+                return new RpcError() { TimeoutError = !Responds };
+            }
+
             ErrorResponse error;
             ID id = ID.RandomID;
             bool timeoutError;

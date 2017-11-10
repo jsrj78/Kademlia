@@ -33,7 +33,7 @@ namespace Clifton.Kademlia.Protocols
 {
     public static class RestCall
     {
-        private static int REQUEST_TIMEOUT = 60000;       // 500 ms for response.
+        public static int RequestTimeout { get; set; } = 500;
 
         public static string Get(string url)
         {
@@ -64,7 +64,7 @@ namespace Clifton.Kademlia.Protocols
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = json.Length;
-            request.Timeout = timeout ?? REQUEST_TIMEOUT;
+            request.Timeout = timeout ?? RequestTimeout;
 
             try
             {
