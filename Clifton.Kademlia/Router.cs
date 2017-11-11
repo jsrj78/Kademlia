@@ -12,16 +12,16 @@ namespace Clifton.Kademlia
 {
     public class Router : BaseRouter
     {
-#if DEBUG   // Used for unit testing when creating the DHT.  The DHT sets the node.
         public Router()
         {
         }
-#endif
 
+#if DEBUG       // Used by unit tests.
         public Router(Node node)
         {
             this.node = node;
         }
+#endif
 
         public override (bool found, List<Contact> contacts, Contact foundBy, string val) Lookup(
                     ID key,

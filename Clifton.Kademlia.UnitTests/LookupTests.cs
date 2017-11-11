@@ -1,4 +1,4 @@
-﻿#define IGNORE_SLOW_TESTS
+﻿// #define IGNORE_SLOW_TESTS
 
 using System;
 using System.Collections.Generic;
@@ -137,31 +137,31 @@ namespace UnitTests2
             Assert.IsTrue(router.FartherContacts.Count == Constants.K, "All contacts should be farther.");
         }
 
-        [TestMethod]
-#if IGNORE_SLOW_TESTS
-        [Ignore]
-#endif
-        public void GetCloserNodesTest()
-        {
-            // Seed with different random values
-            100.ForEach(seed =>
-            {
-                ID.rnd = new Random(seed);
-                Setup();
+//        [TestMethod]
+//#if IGNORE_SLOW_TESTS
+//        [Ignore]
+//#endif
+//        public void GetCloserNodesTest()
+//        {
+//            // Seed with different random values
+//            100.ForEach(seed =>
+//            {
+//                ID.rnd = new Random(seed);
+//                Setup();
 
-                contactsToQuery.ForEach(c =>
-                {
-                    router.GetCloserNodes(key, c, router.RpcFindNodes, closerContacts, fartherContacts, out var _, out var _);
-                });
+//                contactsToQuery.ForEach(c =>
+//                {
+//                    router.GetCloserNodes(key, c, router.RpcFindNodes, closerContacts, fartherContacts, out var _, out var _);
+//                });
 
-                // Test whether the results are correct:  
+//                // Test whether the results are correct:  
 
-                GetAltCloseAndFar(contactsToQuery, closerContactsAltComputation, fartherContactsAltComputation);
+//                GetAltCloseAndFar(contactsToQuery, closerContactsAltComputation, fartherContactsAltComputation);
 
-                Assert.IsTrue(closerContacts.Count == closerContactsAltComputation.Count, "Closer computations do not match.");
-                Assert.IsTrue(fartherContacts.Count == fartherContactsAltComputation.Count, "Farther computations do not match.");
-            });
-        }
+//                Assert.IsTrue(closerContacts.Count == closerContactsAltComputation.Count, "Closer computations do not match.");
+//                Assert.IsTrue(fartherContacts.Count == fartherContactsAltComputation.Count, "Farther computations do not match.");
+//            });
+//        }
 
         [TestMethod]
 #if IGNORE_SLOW_TESTS

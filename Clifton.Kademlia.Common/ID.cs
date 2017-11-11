@@ -108,7 +108,7 @@ namespace Clifton.Kademlia.Common
 
 #if DEBUG
         // public static Random rnd = new Random(1);
-        public static Random rnd = new Random();
+        public static Random rnd = new Random(1);
 #else
         private static Random rnd = new Random();
 #endif

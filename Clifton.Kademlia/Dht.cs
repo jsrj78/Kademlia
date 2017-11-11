@@ -220,7 +220,9 @@ namespace Clifton.Kademlia
             return ret;
         }
 
-#if DEBUG       // For demo and unit testing.
+        /// <summary>
+        /// For demo and unit testing.
+        /// </summary>
         public void PerformBucketRefresh()
         {
             // Get current bucket list in a separate collection because the bucket list might be modified
@@ -229,6 +231,9 @@ namespace Clifton.Kademlia
             currentBuckets.ForEach(b => RefreshBucket(b));
         }
 
+        /// <summary>
+        /// For demo and unit testing.
+        /// </summary>
         public void PerformStoreRepublish()
         {
             republishStorage.Keys.ForEach(k =>
@@ -238,7 +243,6 @@ namespace Clifton.Kademlia
                 republishStorage.Touch(k);
             });
         }
-#endif
 
         /// <summary>
         /// Put contact with an error into a collection and increment the number of times it has timed out.

@@ -23,22 +23,20 @@ namespace Clifton.Kademlia
         protected DateTime now;
         // ======================
 
-#if DEBUG   // Used for unit testing when creating the DHT.  The DHT sets the node.
         public ParallelRouter()
         {
             contactQueue = new ConcurrentQueue<ContactQueueItem>();
             semaphore = new Semaphore(0, Int32.MaxValue);
             InitializeThreadPool();
         }
-#endif
 
-        public ParallelRouter(Node node)
-        {
-            this.node = node;
-            contactQueue = new ConcurrentQueue<ContactQueueItem>();
-            semaphore = new Semaphore(0, Int32.MaxValue);
-            InitializeThreadPool();
-        }
+        //public ParallelRouter(Node node)
+        //{
+        //    this.node = node;
+        //    contactQueue = new ConcurrentQueue<ContactQueueItem>();
+        //    semaphore = new Semaphore(0, Int32.MaxValue);
+        //    InitializeThreadPool();
+        //}
 
         /// <summary>
         /// Perform a lookup on the given key, finding either a node containing the key value
